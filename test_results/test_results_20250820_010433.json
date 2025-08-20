@@ -1,0 +1,48 @@
+[
+  {
+    "image_path": "annotation_images/nike_blk_anot2.jpg",
+    "total_detections": 0,
+    "detections": [],
+    "confidence_threshold": 0.01
+  },
+  {
+    "image_path": "annotation_images/nike_child_anot1.webp",
+    "total_detections": 0,
+    "detections": [],
+    "confidence_threshold": 0.01
+  },
+  {
+    "image_path": "annotation_images/puma_anot2.webp",
+    "total_detections": 1,
+    "detections": [
+      {
+        "brand": "puma",
+        "confidence": 0.03341725841164589,
+        "bounding_box": {
+          "x1": 112.20885467529297,
+          "y1": 170.78489685058594,
+          "x2": 174.2537841796875,
+          "y2": 218.0897979736328
+        }
+      }
+    ],
+    "confidence_threshold": 0.01
+  },
+  {
+    "image_path": "annotation_images/puma_my_tee_anot1.JPG",
+    "total_detections": 1,
+    "detections": [
+      {
+        "brand": "puma",
+        "confidence": 0.017556514590978622,
+        "bounding_box": {
+          "x1": 2100.2216796875,
+          "y1": 3182.103271484375,
+          "x2": 2550.638671875,
+          "y2": 3560.01171875
+        }
+      }
+    ],
+    "confidence_threshold": 0.01
+  }
+]

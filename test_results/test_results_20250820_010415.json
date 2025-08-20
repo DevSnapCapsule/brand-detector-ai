@@ -1,0 +1,26 @@
+[
+  {
+    "image_path": "test_images/nike_blk_anot2.jpg",
+    "total_detections": 0,
+    "detections": [],
+    "confidence_threshold": 0.5
+  },
+  {
+    "image_path": "test_images/nike_child_anot1.webp",
+    "total_detections": 0,
+    "detections": [],
+    "confidence_threshold": 0.5
+  },
+  {
+    "image_path": "test_images/puma_anot2.webp",
+    "total_detections": 0,
+    "detections": [],
+    "confidence_threshold": 0.5
+  },
+  {
+    "image_path": "test_images/puma_my_tee_anot1.JPG",
+    "total_detections": 0,
+    "detections": [],
+    "confidence_threshold": 0.5
+  }
+]
