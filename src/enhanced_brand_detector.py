@@ -76,8 +76,10 @@ class EnhancedBrandDetector:
     async def initialize(self):
         """Initialize the enhanced YOLO model for brand detection"""
         try:
-            # Load pre-trained YOLOv8 model
-            self.model = YOLO("yolov8n.pt")
+            # Load custom Nike/Puma detector weights
+            self.model = YOLO(settings.MODEL_PATH)
+            # Define class names for the custom model
+            self.class_names = ["nike", "puma"]
             
             # Warm up the model
             dummy_image = np.zeros((640, 640, 3), dtype=np.uint8)
@@ -293,7 +295,7 @@ class EnhancedBrandDetector:
                 x2_norm = x2 / orig_w
                 y2_norm = y2 / orig_h
                 
-                # Get class name
+                # Get class name (custom 2-class model)
                 class_name = self._get_class_name(class_id)
                 
                 # Create bounding box
@@ -323,24 +325,10 @@ class EnhancedBrandDetector:
         return detections
     
     def _get_class_name(self, class_id: int) -> str:
-        """Map class ID to class name"""
-        coco_classes = [
-            "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat",
-            "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
-            "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack",
-            "umbrella", "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball",
-            "kite", "baseball bat", "baseball glove", "skateboard", "surfboard", "tennis racket",
-            "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple",
-            "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake",
-            "chair", "couch", "potted plant", "bed", "dining table", "toilet", "tv", "laptop",
-            "mouse", "remote", "keyboard", "cell phone", "microwave", "oven", "toaster", "sink",
-            "refrigerator", "book", "clock", "vase", "scissors", "teddy bear", "hair drier", "toothbrush"
-        ]
-        
-        if class_id < len(coco_classes):
-            return coco_classes[class_id]
-        else:
-            return f"unknown_{class_id}"
+        """Map class ID to class name for custom Nike/Puma model"""
+        if hasattr(self, "class_names") and 0 <= class_id < len(self.class_names):
+            return self.class_names[class_id]
+        return f"class_{class_id}"
     
     def _get_object_type(self, class_name: str) -> str:
         """Determine object type based on class name"""
@@ -372,8 +360,15 @@ class EnhancedBrandDetector:
             image_array = self.preprocess_image(image_bytes)
             original_size = image_array.shape[:2]  # (height, width)
             
-            # Run inference
-            results = self.model(image_array, verbose=False)
+            # Run inference with configured thresholds
+            results = self.model(
+                image_array,
+                conf=settings.CONFIDENCE_THRESHOLD,
+                iou=settings.NMS_THRESHOLD,
+                imgsz=settings.IMG_SIZE,
+                augment=settings.AUGMENT_TTA,
+                verbose=False
+            )
             
             # Postprocess results
             detections = self.postprocess_detections(results, original_size)

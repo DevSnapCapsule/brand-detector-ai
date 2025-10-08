@@ -7,8 +7,10 @@ class Settings(BaseSettings):
     
     # Model settings
     MODEL_PATH: str = "models/brand_detector.pt"
-    CONFIDENCE_THRESHOLD: float = 0.5
+    CONFIDENCE_THRESHOLD: float = 0.25
     NMS_THRESHOLD: float = 0.4
+    IMG_SIZE: int = 960
+    AUGMENT_TTA: bool = False
     
     # API settings
     API_HOST: str = "0.0.0.0"
